@@ -3,7 +3,7 @@
 
 Game::Game() : isRunning(true), VBO(0), angle(0), time(0) {
 	std::cout << "Init Game" << std::endl;
-	window.create(sf::VideoMode(600, 400), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
+    window.create(sf::VideoMode(1920, 1080), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
 	glClearColor(0,0,0,1);
 	std::cout << "Init Succesful" << std::endl;
 }
