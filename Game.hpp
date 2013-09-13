@@ -19,12 +19,15 @@ class Game
     void update(float dt);
     void draw();
 
+	float angle;
+
     sf::RenderWindow window;
     bool isRunning;
 
     GLuint VBO;
     GLuint programHandle;
-
+	sf::Clock clock;
+	glm::detail::tmat4x4<float> trans;
 };
 
 #endif // GAME_HPP

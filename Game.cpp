@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "Shader.hpp"
 
-Game::Game() : isRunning(true), VBO(0) {
+Game::Game() : isRunning(true), VBO(0), angle(0) {
 	std::cout << "Init Game" << std::endl;
 	window.create(sf::VideoMode(600, 400), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
 	glClearColor(0,0,0,1);
@@ -43,24 +43,23 @@ bool Game::init() {
 
 	glGenBuffers(1, &VBO);
 	glUseProgram(programHandle);
-	glm::detail::tmat4x4<float> modelViewProjection = glm::perspective(60.0f,600.0f/400.0f,0.001f,1000.0f);
 
-	GLint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
-	glUniformMatrix4fv(0,1,GL_FALSE,(GLfloat*)&modelViewProjection[0][0]);
+	//modelViewProjection = glm::rotate(modelViewProjection, 10.0f, glm::vec3(0,1,0));
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_ALPHA_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+	glEnable(GL_CULL_FACE);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	std::vector<Vertex> data;
-	data.push_back( Vertex(-1, -1, -2, 0, 0, 1) );
-	data.push_back( Vertex(1, -1, -2, 0, 1, 0) );
-	data.push_back( Vertex(0, 1, -2, 1, 0, 0) );
+	data.push_back( Vertex(-1, -1, 0, 0, 0, 1) );
+	data.push_back( Vertex(1, -1, 0, 0, 1, 0) );
+	data.push_back( Vertex(0, 1, 0, 1, 0, 0) );
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*6*data.size(), &data[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*data.size(), &data[0], GL_STATIC_DRAW);
 	return true;
 }
 
@@ -73,12 +72,19 @@ void Game::run() {
 	}
 }
 
-void Game::update(float dt) {}
+void Game::update(float dt) {
+	angle += dt*100;
+}
 
 void Game::draw() {
 	window.clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	trans = glm::perspective(60.0f,600.0f/400.0f,0.001f,1000.0f);
+	trans = glm::translate(trans,glm::vec3(0,0,-2));
+	trans = glm::rotate(trans, angle, glm::detail::tvec3<float>(0, 1, 0));
 	glUseProgram(programHandle);
+	GLint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
+	glUniformMatrix4fv(0,1,GL_FALSE,(GLfloat*)&trans[0][0]);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
@@ -89,4 +95,3 @@ void Game::draw() {
 	glDisableVertexAttribArray(0);
 	window.display();
 }
-
