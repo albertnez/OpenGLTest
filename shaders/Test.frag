@@ -1,7 +1,10 @@
 #version 420
 
-in vec3 vColor;
+uniform float time;
+
+in vec2 pos;
 
 void main() {
-  gl_FragColor = vec4(vColor,1.0);
+    gl_FragColor = vec4(sin(pos*5+time*20), sin(time*50), 1.0);
 }
+

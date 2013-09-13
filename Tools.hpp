@@ -19,5 +19,13 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/noise.hpp"
 #include "glm/gtc/type_ptr.hpp"
-
+/*
+struct Vertex {
+        Vertex(float px, float py, float pz, float cr, float cg, float cb)
+            : px(px), py(py), pz(pz), cr(cr), cg(cg), cb(cb) {}
+        ~Vertex() {}
+        float px, py, pz;
+        float cr, cg, cb;
+};
+*/
 #endif // TOOLS_HPP

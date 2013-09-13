@@ -1,12 +1,20 @@
 #include "Game.hpp"
 #include "Shader.hpp"
 
-Game::Game() : isRunning(true), VBO(0), angle(0) {
+Game::Game() : isRunning(true), VBO(0), angle(0), time(0) {
 	std::cout << "Init Game" << std::endl;
 	window.create(sf::VideoMode(600, 400), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
 	glClearColor(0,0,0,1);
 	std::cout << "Init Succesful" << std::endl;
 }
+
+
+struct Vertex {
+        Vertex(float px, float py)
+            : px(px), py(py) {}
+        ~Vertex() {}
+        float px, py;
+};
 
 bool Game::init() {
 	std::string vp_filename("shaders/Test.vert"), fp_filename("shaders/Test.frag");
@@ -50,48 +58,68 @@ bool Game::init() {
 	glEnable(GL_ALPHA_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-	glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	std::vector<Vertex> data;
-	data.push_back( Vertex(-1, -1, 0, 0, 0, 1) );
-	data.push_back( Vertex(1, -1, 0, 0, 1, 0) );
-	data.push_back( Vertex(0, 1, 0, 1, 0, 0) );
+    std::vector<Vertex> data;
+    data.push_back( Vertex(-1, 1) );
+    data.push_back( Vertex(-1, -1) );
+    data.push_back( Vertex(1, -1) );
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*data.size(), &data[0], GL_STATIC_DRAW);
+    data.push_back( Vertex(-1, 1) );
+    data.push_back( Vertex(1, -1) );
+    data.push_back( Vertex(1, 1) );
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*data.size(), &data[0], GL_STATIC_DRAW);
 	return true;
 }
 
 void Game::run() {
 	sf::Clock clock;
 	while(isRunning) {
-		float dt = clock.restart().asSeconds();
-		update(dt);
-		draw();
+        float dt = clock.restart().asSeconds();
+        time += dt;
+        std::cout << "time: " << time << std::endl;
+        update(dt);
+        draw();
 	}
 }
 
 void Game::update(float dt) {
+    sf::Event event;
+    while(window.pollEvent(event)) {
+        switch (event.type) {
+            case sf::Event::Closed:
+                isRunning = false;
+                break;
+            default:
+                break;
+        }
+    }
 	angle += dt*100;
 }
 
 void Game::draw() {
 	window.clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	trans = glm::perspective(60.0f,600.0f/400.0f,0.001f,1000.0f);
-	trans = glm::translate(trans,glm::vec3(0,0,-2));
-	trans = glm::rotate(trans, angle, glm::detail::tvec3<float>(0, 1, 0));
+    trans = glm::perspective(60.0f,600.0f/400.0f,0.001f,1000.0f);
+    trans = glm::translate(trans,glm::vec3(0,0,-1));
+    //trans = glm::rotate(trans, angle, glm::detail::tvec3<float>(0, 0, 1));
 	glUseProgram(programHandle);
-	GLint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
-	glUniformMatrix4fv(0,1,GL_FALSE,(GLfloat*)&trans[0][0]);
+//    GLint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
+//    glUniformMatrix4fv(loc,1,GL_FALSE,(GLfloat*)&trans[0][0]);
+
+    GLint timeLoc = glGetUniformLocation(programHandle, std::string("time").c_str());
+    glUniform1f(timeLoc, time);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(3*sizeof(float)));
-	glDrawArrays(GL_TRIANGLES,0,3);
-	glDisableVertexAttribArray(1);
+    //glEnableVertexAttribArray(1);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(3*sizeof(float)));
+    glDrawArrays(GL_TRIANGLES,0,6);
+    //glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
 	window.display();
 }

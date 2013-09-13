@@ -6,12 +6,14 @@ CONFIG -= qt
 SOURCES += main.cpp \
     Game.cpp \
     Tools.cpp \
-    Shader.cpp
+    Shader.cpp \
+    Cube.cpp
 
 HEADERS += \
     Game.hpp \
     Tools.hpp \
-    Shader.hpp
+    Shader.hpp \
+    Cube.hpp
 
 OTHER_FILES += \
     shaders/Test.frag \
