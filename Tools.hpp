@@ -19,6 +19,11 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/noise.hpp"
 #include "glm/gtc/type_ptr.hpp"
+
+extern int SCREENWIDTH;
+extern int SCREENHEIGHT;
+
+
 /*
 struct Vertex {
         Vertex(float px, float py, float pz, float cr, float cg, float cb)

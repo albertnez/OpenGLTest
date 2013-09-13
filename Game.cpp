@@ -3,7 +3,7 @@
 
 Game::Game() : isRunning(true), VBO(0), angle(0), time(0) {
 	std::cout << "Init Game" << std::endl;
-    window.create(sf::VideoMode(1920, 1080), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
+    window.create(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
 	glClearColor(0,0,0,1);
 	std::cout << "Init Succesful" << std::endl;
 }
@@ -103,7 +103,7 @@ void Game::update(float dt) {
 void Game::draw() {
 	window.clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    trans = glm::perspective(60.0f,600.0f/400.0f,0.001f,1000.0f);
+    trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
     trans = glm::translate(trans,glm::vec3(0,0,-1));
     //trans = glm::rotate(trans, angle, glm::detail::tvec3<float>(0, 0, 1));
 	glUseProgram(programHandle);
