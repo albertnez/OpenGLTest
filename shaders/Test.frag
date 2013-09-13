@@ -36,16 +36,20 @@ void main( void ) {
         }
         */
 
-        for(float i=0.0; i<20.0;i++){
-            nd =sin(3.14*0.8*pos.x + i*0.6 + time*(pos.x > 0.5 ? -1 : 1))*(pos.x-0.5)*0.9+0.5;
-        amnt = 1.0/abs(nd-pos.y)*0.002;
+        float desvX = 0.2*sin(time);
+        float desvY = 0.2*cos(time);
+
+        for(float i=0.0; i<21.0;i++){
+            nd =sin(3.14*0.8*pos.x + i*0.6 + time*(pos.x > 0.5 +desvX ? -1 : 1))*(pos.x-0.5-desvX)*0.9+0.5 + desvY;
+        amnt = 1.0/abs(nd-pos.y)*0.0005;
 
         cbuff += vec4(amnt, amnt*0.3 , amnt*pos.y, 1.0);
         }
 
-        for(float i=0.0; i<20.0;i++){
-            nd =sin(3.14*pos.y + i*0.6 + time*(pos.y > 0.5 ? -1 : 1))*(pos.y-0.5)*0.75+0.5;
-        amnt = 1.0/abs(nd-pos.x)*0.002;
+
+        for(float i=0.0; i<21.0;i++){
+            nd =sin(3.14*pos.y + i*0.6 + time*(pos.y > 0.5+desvY ? -1 : 1))*(pos.y-0.5-desvY)*0.9 + 0.5 +desvX;
+        amnt = 1.0/abs(nd-pos.x)*0.0005;
 
         cbuff += vec4(amnt*0.2, amnt*0.3 , amnt*pos.x, 1.0);
         }
