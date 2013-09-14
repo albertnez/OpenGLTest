@@ -1,36 +1,48 @@
-#version 420
+#ifdef GL_ES
+precision mediump float;
+#endif
 
 uniform float time;
-vec2 mouse = vec2(0,0);
-vec2 resolution = vec2(800, 600);
-void main( void ) {
-        vec2 pos = gl_FragCoord.xy / resolution;
-        vec2 pos2 = vec2(pos.x, 1-pos.y);
+void main( void )
+{
+	vec2 pos = gl_FragCoord.xy / vec2(800, 600);
+	float amnt = 0.1;
+	float nd = 1.0;
+	vec4 cbuff = vec4(0.0);
 
-        float amnt = 0.0;
-        float nd = 0.0;
-        vec4 cbuff = vec4(0.0);
+	float y = 1.0;
+	float PI = 3.141592;
 
+	for (float i = 0.0; i < 1.0; ++i) {
+		y = sin(2*PI*time)*0.5 + 0.5;
+	}
 
-        float desvX = 0.2*sin(time*0.2);
-        float desvY = 0.2*cos(time*0.2);
+	cbuff += vec4(y, 0.0, 0.0, 1.0);
 
-        for(float i=0.0; i<21.0;i++){
-            nd =sin(3.14*0.8*pos.x + i*0.6 + time*(pos.x > 0.5 +desvX ? -1 : 1))  * ((pos.x-0.5-desvX)*0.9)+0.5 + desvY;
-        amnt = 1.0/abs(nd-pos.y)*0.0005;
+/*
+	for (float i = 0.0; i < 4.0; i++)
+	{
+		nd = sin(3.14 * 1.0 * pos.x + i * 800.0 + time) * 0.2 * (pos.x + 0.3) + 0.5;
+		amnt = 1.0 / abs(nd - pos.x) * 0.005;
 
-        cbuff += vec4(amnt, amnt*0.3 , amnt*pos.y, 1.0);
-        }
+		cbuff += vec4(amnt * pos.x, amnt * 0.2, amnt * pos.x, 1.0);
+	}
 
+	for (float i = 0.0; i < 4.0; i++)
+	{
+		nd = sin(3.14 * 1.0 * pos.y + i * 1600.0 + time) * 0.3 * (pos.y + 0.3) + 0.5;
+		amnt = 1.0 / abs(nd - pos.y) * 0.005;
 
-        for(float i=0.0; i<21.0;i++){
-            nd =sin(3.14*pos.y + i*0.6 + time*(pos.y > 0.5+desvY ? -1 : 1)) * (pos.y-0.5-desvY)*0.9 + 0.5 +desvX;
-        amnt = 1.0/abs(nd-pos.x)*0.0005;
+		cbuff += vec4(amnt * 0.2, amnt * 0.3, amnt * pos.y, 1.0);
+	}
 
-        cbuff += vec4(amnt*0.2, amnt*0.3 , amnt*pos.x, 1.0);
-        }
+	for (float i = 0.0; i < 2.0; i++)
+	{
+		nd = sin(3.14 * 1.0 * pos.y + i * 3200.0 + time) * 0.4 * (pos.y + 0.3) + 0.5;
+		amnt = 1.0 / abs(nd - pos.y) * 0.005;
 
-
-        vec4 dbuff = vec4(0);
-  gl_FragColor = cbuff + dbuff;
+		cbuff += vec4(amnt * 0.7, amnt * pos.x, amnt * 0.2, 1.0);
+	}
+*/
+	gl_FragColor = cbuff;
 }
