@@ -1,4 +1,4 @@
 #include "Tools.hpp"
 
 int SCREENWIDTH = 800;
-int SCREENHEIGHT = 600;
+int SCREENHEIGHT = 800;
