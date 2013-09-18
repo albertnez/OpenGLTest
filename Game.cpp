@@ -23,7 +23,7 @@ bool Game::init() {
 	Shader vertex(GL_VERTEX_SHADER);
 	vertex.load(vp_filename);
 	if (!vertex.compile()) {
-		vertex.printInfoLog();
+        verteBindBuffer(GL_ARRAY_BUFFER, VBO);BindBuffer(GL_ARRAY_BUFFER, VBO);x.printInfoLog();
 		std::cout << "#ERROR Compile failed for vertex shader '" << vp_filename << "'." << std::endl;;
 		return false;
 	}
@@ -72,7 +72,7 @@ bool Game::init() {
     data.push_back( Vertex(1, 1) );
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*data.size(), &data[0], GL_STATIC_DRAW);
-	return true;
+    return true;
 }
 
 void Game::run() {
@@ -117,9 +117,11 @@ void Game::draw() {
 	glEnableVertexAttribArray(0);
     //glEnableVertexAttribArray(1);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+
     // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(3*sizeof(float)));
     glDrawArrays(GL_TRIANGLES,0,6);
     //glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
+
 	window.display();
 }
