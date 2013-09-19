@@ -23,7 +23,7 @@ bool Game::init() {
 	Shader vertex(GL_VERTEX_SHADER);
 	vertex.load(vp_filename);
 	if (!vertex.compile()) {
-        verteBindBuffer(GL_ARRAY_BUFFER, VBO);BindBuffer(GL_ARRAY_BUFFER, VBO);x.printInfoLog();
+        vertex.printInfoLog();
 		std::cout << "#ERROR Compile failed for vertex shader '" << vp_filename << "'." << std::endl;;
 		return false;
 	}
@@ -63,6 +63,7 @@ bool Game::init() {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     std::vector<Vertex> data;
+
     data.push_back( Vertex(-1, 1) );
     data.push_back( Vertex(-1, -1) );
     data.push_back( Vertex(1, -1) );
@@ -93,6 +94,9 @@ void Game::update(float dt) {
             case sf::Event::Closed:
                 isRunning = false;
                 break;
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::Escape) isRunning = false;
+                break;
             default:
                 break;
         }
@@ -104,11 +108,11 @@ void Game::draw() {
 	window.clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
-    trans = glm::translate(trans,glm::vec3(0,0,-1));
-    //trans = glm::rotate(trans, angle, glm::detail::tvec3<float>(0, 0, 1));
+    trans = glm::translate(trans,glm::vec3(0,0,-10));
+    trans = glm::rotate(trans, angle, glm::detail::tvec3<float>(0, 0, 1));
 	glUseProgram(programHandle);
-//    GLint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
-//    glUniformMatrix4fv(loc,1,GL_FALSE,(GLfloat*)&trans[0][0]);
+    GLint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
+    glUniformMatrix4fv(loc,1,GL_FALSE,(GLfloat*)&trans[0][0]);
 
     GLint timeLoc = glGetUniformLocation(programHandle, std::string("time").c_str());
     glUniform1f(timeLoc, time);
