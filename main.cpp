@@ -2,10 +2,11 @@
 
 int main()
 {
-  Game myGame;
-  if(myGame.init()) {
-    myGame.run();
-  }
-  return 42;
+    srand(time(NULL));
+    Game myGame;
+    if(myGame.init()) {
+        myGame.run();
+    }
+    return 42;
 }
 

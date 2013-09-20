@@ -7,13 +7,15 @@ SOURCES += main.cpp \
     Game.cpp \
     Tools.cpp \
     Shader.cpp \
-    Cube.cpp
+    Cube.cpp \
+    Particle.cpp
 
 HEADERS += \
     Game.hpp \
     Tools.hpp \
     Shader.hpp \
-    Cube.hpp
+    Cube.hpp \
+    Particle.hpp
 
 OTHER_FILES += \
     shaders/Test.frag \

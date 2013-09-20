@@ -2,7 +2,7 @@
 #define GAME_HPP
 
 #include "Tools.hpp"
-
+#include "Particle.hpp"
 class Game
 {
   public:
@@ -23,6 +23,9 @@ class Game
     GLuint programHandle;
 	sf::Clock clock;
 	glm::detail::tmat4x4<float> trans;
+
+    std::vector<Particle> particles;
+    sf::Mouse mouse;
 };
 
 #endif // GAME_HPP

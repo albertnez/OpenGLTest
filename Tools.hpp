@@ -22,6 +22,10 @@
 
 extern int SCREENWIDTH;
 extern int SCREENHEIGHT;
+extern int NUMPARTICLES;
+extern float CAMZ;
+extern float G;
+extern float FRICTION;
 
 
 /*
