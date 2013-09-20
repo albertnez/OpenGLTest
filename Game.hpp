@@ -24,7 +24,8 @@ class Game
 	sf::Clock clock;
 	glm::detail::tmat4x4<float> trans;
 
-    std::vector<Particle> particles;
+    std::list<Particle> particles;
+
     sf::Mouse mouse;
     sf::Vector2f mousepos;
 };

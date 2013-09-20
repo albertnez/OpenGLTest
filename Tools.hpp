@@ -14,6 +14,7 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include <list>
 
 //GLM
 #include "glm/glm.hpp"
@@ -28,6 +29,7 @@ extern float CAMZ;
 extern float G;
 extern float FRICTION;
 
+float frand(int n);
 
 /*
 struct Vertex {
