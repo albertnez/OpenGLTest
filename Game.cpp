@@ -107,10 +107,11 @@ void Game::update(float dt) {
     }
 	angle += dt*100;
     sf::Vector2i mpos = mouse.getPosition(window);
-    sf::Vector2f mousepos = sf::Vector2f(
-                float(mpos.x)/float(SCREENWIDTH) - 0.5,
-                float(mpos.y)/float(SCREENHEIGHT) - 0.5 );
-
+    mousepos = sf::Vector2f(
+                (float(mpos.x)/float(SCREENWIDTH)-0.5)*2,
+                (float(-mpos.y)/float(SCREENHEIGHT)+0.5)*2
+                );
+    //std::cout << "mpos.x: " << mousepos.x << "  mposy: " << mousepos.y << std::endl;
     for (int i = 0; i < NUMPARTICLES; ++i) particles[i].update(dt, mousepos);
 
 }
@@ -139,7 +140,7 @@ void Game::draw() {
    // glDrawArrays(GL_TRIANGLES,0,6);
 
     // Particle draw
-    for (int i = 0; i < NUMPARTICLES; ++i) particles[i].draw(loc, trans);
+    for (int i = 0; i < NUMPARTICLES; ++i) particles[i].draw(loc, trans, mousepos);
 
     //glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);

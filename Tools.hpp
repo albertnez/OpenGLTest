@@ -13,6 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <cmath>
 
 //GLM
 #include "glm/glm.hpp"

@@ -11,7 +11,8 @@ private:
 
 public:
     Particle();
-    void draw(GLuint location, glm::detail::tmat4x4<float> & trans);
+    ~Particle();
+    void draw(GLuint location, glm::detail::tmat4x4<float> & trans, sf::Vector2f mpos);
     void update(float dt, sf::Vector2f mpos);
 };
 

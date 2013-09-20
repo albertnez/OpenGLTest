@@ -3,13 +3,21 @@
 Particle::Particle()
 {
     pos = glm::vec3( float((rand()%2000-1000)/1000), float((rand()%2000-1000)/1000), 0.0);
-    vel = glm::vec3(float(rand()%3000)/1000, float(rand()%3000)/1000, 0);
+    vel = glm::vec3(float(rand()%2000)/1000, float(rand()%2000)/1000, 0);
     if (rand()%2) vel.x *= -1;
     if (rand()%2) vel.y *= -1;
 }
 
+Particle::~Particle(){}
+
 void Particle::update(float dt, sf::Vector2f mpos) {
-    pos += vel*dt;
+    float dist = sqrt(pow(pos.x-mpos.x, 2) + pow(pos.y-mpos.y, 2));
+    dist *= 5;
+    pos += vel*dt*std::min(1.0f,(1/(dist*dist)));
+    //pos += vel*dt*0.5f;
+    //std::cout << "m: (" << mpos.x << ',' << mpos.y << ")  \np: (" << pos.x << ',' << pos.y << std::endl;
+    //std::cout << "dist: " << dist << std::endl;
+
     if (pos.x < -1) {
         vel.x *= -1;
         pos.x = -1 + (-1 -pos.x);
@@ -28,19 +36,18 @@ void Particle::update(float dt, sf::Vector2f mpos) {
     }
 
 
-    float dist = sqrt(pow(pos.x-mpos.x, 2) + pow(pos.y-mpos.y, 2));
-    float Force = G/(dist*dist);
-/*
-    vel.x += Force*((mpos.x-pos.x)/dist)*dt*FRICTION;
-    vel.y -= Force*((mpos.y-pos.y)/dist)*dt*FRICTION;
-*/
+
 }
 
-void Particle::draw(GLuint location, glm::detail::tmat4x4<float> & trans) {
+void Particle::draw(GLuint location, glm::detail::tmat4x4<float> & trans, sf::Vector2f mpos) {
     trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
     trans = glm::translate(trans, glm::vec3(0, 0, CAMZ));
     trans = glm::translate(trans, pos);
-    trans = glm::scale(trans, glm::vec3(0.1, 0.1, 0));
+
+    float dist = sqrt(pow(pos.x-mpos.x, 2) + pow(pos.y-mpos.y, 2));
+    dist *= 50;
+    float scale = std::min(0.2f, std::max(0.01f, 1/(dist)));
+    trans = glm::scale(trans, glm::vec3(scale, scale, 0));
     glUniformMatrix4fv(location,1,GL_FALSE,(GLfloat*)&trans[0][0]);
     glDrawArrays(GL_TRIANGLES,0,6);
 }

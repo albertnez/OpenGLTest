@@ -26,6 +26,7 @@ class Game
 
     std::vector<Particle> particles;
     sf::Mouse mouse;
+    sf::Vector2f mousepos;
 };
 
 #endif // GAME_HPP
