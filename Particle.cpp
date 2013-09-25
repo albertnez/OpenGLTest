@@ -2,11 +2,11 @@
 
 Particle::Particle()
 {
-    pos = glm::vec3( float(rand()%1000-500)/500.0f, float(rand()%1000-500)/500.0f, 0.0);
-    vel = glm::vec3(float(rand()%2000)/1000, float(rand()%2000)/1000, 0);
-    if (rand()%2) vel.x *= -1;
-    if (rand()%2) vel.y *= -1;
-    life = float(rand()%1000000)/100000;
+	pos = glm::vec3( frand(-1, 1), frand(-1, 1), 0.0f);
+	vel = glm::vec3( frand(-5, 5), frand(-5, 5), 0.0f);
+
+	//life = frand(1000,10000);
+	life = frand(1,10);
 }
 
 Particle::~Particle(){}
@@ -15,9 +15,7 @@ void Particle::update(float dt, sf::Vector2f mpos) {
     float dist = sqrt(pow(pos.x-mpos.x, 2) + pow(pos.y-mpos.y, 2));
     dist *= 5;
     pos += vel*dt*std::min(1.0f,(1/(dist*dist)));
-    //pos += vel*dt*0.5f;
-    //std::cout << "m: (" << mpos.x << ',' << mpos.y << ")  \np: (" << pos.x << ',' << pos.y << std::endl;
-    //std::cout << "dist: " << dist << std::endl;
+
 
     if (pos.x < -1) {
         vel.x *= -1;

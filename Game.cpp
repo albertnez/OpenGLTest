@@ -6,8 +6,7 @@ Game::Game() : isRunning(true), VBO(0), angle(0), time(0) {
 
 
     for (int i = 0; i < NUMPARTICLES; ++i) particles.push_back(Particle());
-
-    window.create(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
+	window.create(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
 	glClearColor(0,0,0,1);
 	std::cout << "Init Succesful" << std::endl;
 }
@@ -100,8 +99,6 @@ void Game::update(float dt) {
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::Escape) isRunning = false;
                 break;
-            default:
-                break;
         }
     }
 	angle += dt*100;
@@ -144,7 +141,6 @@ void Game::draw() {
 
     // Particle draw
     for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); ++it) it->draw(loc, trans, mousepos);
-    //for (int i = 0; i < NUMPARTICLES; ++i) particles[i].draw(loc, trans, mousepos);
 
     //glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);

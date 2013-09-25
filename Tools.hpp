@@ -29,7 +29,11 @@ extern float CAMZ;
 extern float G;
 extern float FRICTION;
 
+float frand();
+
 float frand(int n);
+
+float frand(int lo, int hi);
 
 /*
 struct Vertex {
