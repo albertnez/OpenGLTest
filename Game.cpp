@@ -101,7 +101,6 @@ void Game::update(float dt) {
                 break;
         }
     }
-	angle += dt*100;
     sf::Vector2i mpos = mouse.getPosition(window);
     mousepos = sf::Vector2f(
                 (float(mpos.x)/float(SCREENWIDTH)-0.5)*2,

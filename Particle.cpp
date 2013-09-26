@@ -12,10 +12,18 @@ Particle::Particle()
 Particle::~Particle(){}
 
 void Particle::update(float dt, sf::Vector2f mpos) {
-    float dist = sqrt(pow(pos.x-mpos.x, 2) + pow(pos.y-mpos.y, 2));
-    dist *= 5;
-    pos += vel*dt*std::min(1.0f,(1/(dist*dist)));
+    float d = sqrt(pow(pos.x-mpos.x, 2) + pow(pos.y-mpos.y, 2));
+    float dist = d*5;
 
+    pos += vel*dt*std::min(1.0f,(1/(dist*dist)));
+    // force = G*M*m*r^-2*u
+    glm::vec2 uvect = glm::vec2(mpos.x-pos.x, mpos.y-pos.y) / dist;
+    glm::vec2 force = uvect / (dist*dist);
+    //FIX THIS
+    //vel -= force;
+//    glm::vec2::
+    //if (vel < glm::vec2(-5.0)) vel = glm::vec2(-5.0);
+    //if (vel > glm::vec2(5.0)) vel = glm::vec2(5.0);
 
     if (pos.x < -1) {
         vel.x *= -1;
