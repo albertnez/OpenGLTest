@@ -28,13 +28,14 @@ extern int NUMPARTICLES;
 extern float CAMZ;
 extern float G;
 extern float FRICTION;
+extern bool atraction;
 
 float frand();
-
 float frand(int n);
-
 float frand(int lo, int hi);
 
+float module(float x, float y);
+float module(const glm::vec2 &v);
 /*
 struct Vertex {
         Vertex(float px, float py, float pz, float cr, float cg, float cb)

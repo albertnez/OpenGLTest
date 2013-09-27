@@ -13,7 +13,6 @@ class Game
     void update(float dt);
     void draw();
 
-	float angle;
     float time;
 
     sf::RenderWindow window;

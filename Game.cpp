@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "Shader.hpp"
 
-Game::Game() : isRunning(true), VBO(0), angle(0), time(0) {
+Game::Game() : isRunning(true), VBO(0), time(0) {
 	std::cout << "Init Game" << std::endl;
 
 
@@ -98,6 +98,7 @@ void Game::update(float dt) {
                 break;
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::Escape) isRunning = false;
+				else if (event.key.code == sf::Keyboard::R) atraction = !atraction;
                 break;
         }
     }

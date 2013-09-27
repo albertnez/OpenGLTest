@@ -6,9 +6,10 @@
 class Particle
 {
 private:
-    glm::vec3 pos;
-    glm::vec3 vel;
+	glm::vec2 pos;
+	glm::vec2 vel;
     float life;
+	const static float maxVel = 1.0f;
 
 public:
     Particle();
