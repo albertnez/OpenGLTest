@@ -11,12 +11,17 @@ private:
     float life;
 	const static float maxVel = 1.0f;
 
+    float initSize, finalSize;
+    float initAlpha, finalAlpha;
+    float initLife;
+
 public:
     Particle();
+    Particle(glm::vec2 pos, glm::vec2 vel, float initLife);
     ~Particle();
-    void draw(GLuint location, glm::detail::tmat4x4<float> & trans, sf::Vector2f mpos);
+    void draw(GLuint location, glm::detail::tmat4x4<float> & trans, sf::Vector2f mpos, GLuint alphaLoc) const;
     void update(float dt, sf::Vector2f mpos);
-    bool isDead();
+    bool isDead() const;
 };
 
 #endif // PARTICLE_HPP

@@ -1,8 +1,11 @@
+
 #ifndef GAME_HPP
 #define GAME_HPP
 
 #include "Tools.hpp"
 #include "Particle.hpp"
+#include "ParticleEmitter.hpp"
+
 class Game
 {
   public:
@@ -23,7 +26,7 @@ class Game
 	sf::Clock clock;
 	glm::detail::tmat4x4<float> trans;
 
-    std::list<Particle> particles;
+    ParticleEmitter PE;
 
     sf::Mouse mouse;
     sf::Vector2f mousepos;

@@ -4,8 +4,11 @@
 Game::Game() : isRunning(true), VBO(0), time(0) {
 	std::cout << "Init Game" << std::endl;
 
+    //PARTICLES
+    PE = ParticleEmitter();
 
-    for (int i = 0; i < NUMPARTICLES; ++i) particles.push_back(Particle());
+
+
 	window.create(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
 	glClearColor(0,0,0,1);
 	std::cout << "Init Succesful" << std::endl;
@@ -97,8 +100,8 @@ void Game::update(float dt) {
                 isRunning = false;
                 break;
             case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::R) REPULSION = !REPULSION;
                 if (event.key.code == sf::Keyboard::Escape) isRunning = false;
-				else if (event.key.code == sf::Keyboard::R) atraction = !atraction;
                 break;
         }
     }
@@ -107,17 +110,12 @@ void Game::update(float dt) {
                 (float(mpos.x)/float(SCREENWIDTH)-0.5)*2,
                 (float(-mpos.y)/float(SCREENHEIGHT)+0.5)*2
                 );
-    //std::cout << "mpos.x: " << mousepos.x << "  mposy: " << mousepos.y << std::endl;
-    for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); ++it) it->update(dt, mousepos);
-    for (std::list<Particle>::iterator it = particles.begin(); it != particles.end();) {
-        std::list<Particle>::iterator it2 = it;
-        ++it2;
-        if (it->isDead()) {
-            particles.erase(it);
-            particles.push_back(Particle());
-        }
-        it = it2;
-    }
+
+
+    //PARTICLE EMITER
+
+    PE.setPosition(mousepos.x, mousepos.y);
+    PE.update(dt, mousepos);
 
 }
 
@@ -125,22 +123,20 @@ void Game::draw() {
 	window.clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(programHandle);
+
     GLint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
-
-
+    GLint alphaLoc = glGetUniformLocation(programHandle, std::string("alpha").c_str());
     GLint timeLoc = glGetUniformLocation(programHandle, std::string("time").c_str());
-    glUniform1f(timeLoc, time);
-
     GLint mouseLoc = glGetUniformLocation(programHandle, std::string("mousePosition").c_str());
+    glUniform1f(timeLoc, time);
     glUniform2f (mouseLoc, mousepos.x, mousepos.y);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glEnableVertexAttribArray(0);
-    //glEnableVertexAttribArray(1);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
     // Particle draw
-    for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); ++it) it->draw(loc, trans, mousepos);
+    PE.draw(loc, trans, mousepos, alphaLoc);
 
     //glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);

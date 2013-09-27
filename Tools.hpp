@@ -26,13 +26,12 @@ extern int SCREENWIDTH;
 extern int SCREENHEIGHT;
 extern int NUMPARTICLES;
 extern float CAMZ;
-extern float G;
-extern float FRICTION;
-extern bool atraction;
+
+extern bool REPULSION;
 
 float frand();
 float frand(int n);
-float frand(int lo, int hi);
+float frand(float lo, float hi);
 
 float module(float x, float y);
 float module(const glm::vec2 &v);
