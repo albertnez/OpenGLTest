@@ -25,7 +25,7 @@ Particle::Particle(glm::vec2 pos, glm::vec2 vel, float initLife)
 
 Particle::~Particle(){}
 
-void Particle::update(float dt, sf::Vector2f mpos) {
+void Particle::update(float dt, glm::vec2 mpos) {
     if (pos.x != mpos.x and pos.y != mpos.y and REPULSION) {
         float dist = module(pos.x-mpos.x, pos.y-mpos.y);
         glm::vec2 uvect = glm::vec2(pos.x-mpos.x, pos.y-mpos.y)/dist;
@@ -58,7 +58,7 @@ void Particle::update(float dt, sf::Vector2f mpos) {
     life = std::max(0.0f, life-dt);
 }
 
-void Particle::draw(GLuint location, glm::detail::tmat4x4<float> & trans, sf::Vector2f mpos, GLuint alphaLoc) const{
+void Particle::draw(GLuint location, glm::detail::tmat4x4<float> & trans, glm::vec2 mpos, GLuint alphaLoc) const{
 
     trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
     trans = glm::translate(trans, glm::vec3(0, 0, CAMZ));

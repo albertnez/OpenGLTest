@@ -29,7 +29,7 @@ class Game
     ParticleEmitter PE;
 
     sf::Mouse mouse;
-    sf::Vector2f mousepos;
+	glm::vec2 mousepos;
 };
 
 #endif // GAME_HPP

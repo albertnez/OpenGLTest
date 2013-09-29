@@ -1,10 +1,19 @@
 #include "ParticleEmitter.hpp"
 
-ParticleEmitter::ParticleEmitter() {
+ParticleEmitter::ParticleEmitter(glm::vec2 pos, int numParticles, float frequency) {
     pos = glm::vec2(0.0f, 0.0f);
-    frequency = 10;
-    life = NUMPARTICLES/frequency;
-    for (int i = 0; i < NUMPARTICLES; ++i) particlesList.push_back(Particle(pos, glm::vec2(frand(-1.0f, 1.0f), frand(-1.0f, 1.0f)), i*life/NUMPARTICLES));
+	this->numParticles = numParticles;
+	this->frequency = frequency;
+	life = float(numParticles)/frequency;
+
+
+
+	for (int i = 0; i < numParticles; ++i)
+		particlesList.push_back( Particle(
+									 pos,
+									 glm::vec2(frand(-1.0f, 1.0f),frand(-1.0f, 1.0f)),
+									 life * (i/float(numParticles))
+									 ));
 }
 
 ParticleEmitter::ParticleEmitter(glm::vec2 pos, float frequency) {
@@ -23,7 +32,7 @@ void ParticleEmitter::setPosition(float x, float y) {
 
 const glm::vec2 ParticleEmitter::getPosition() const { return pos;}
 
-void ParticleEmitter::update(float dt, sf::Vector2f mpos) {
+void ParticleEmitter::update(float dt, glm::vec2 mpos) {
     for (std::list<Particle>::iterator it = particlesList.begin(); it != particlesList.end();) {
         std::list<Particle>::iterator it2 = it;
         it2++;
@@ -36,7 +45,7 @@ void ParticleEmitter::update(float dt, sf::Vector2f mpos) {
     }
 }
 
-void ParticleEmitter::draw(GLuint location, glm::detail::tmat4x4<float> &trans, sf::Vector2f mpos, GLuint alphaLoc) const {
+void ParticleEmitter::draw(GLuint location, glm::detail::tmat4x4<float> &trans, glm::vec2 mpos, GLuint alphaLoc) const {
     for (std::list<Particle>::const_iterator it = particlesList.begin(); it != particlesList.end(); ++it)
         it->draw(location, trans, mpos, alphaLoc);
 }

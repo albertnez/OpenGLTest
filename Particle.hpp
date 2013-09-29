@@ -19,8 +19,8 @@ public:
     Particle();
     Particle(glm::vec2 pos, glm::vec2 vel, float initLife);
     ~Particle();
-    void draw(GLuint location, glm::detail::tmat4x4<float> & trans, sf::Vector2f mpos, GLuint alphaLoc) const;
-    void update(float dt, sf::Vector2f mpos);
+    void draw(GLuint location, glm::detail::tmat4x4<float> & trans, glm::vec2 mpos, GLuint alphaLoc) const;
+    void update(float dt, glm::vec2 mpos);
     bool isDead() const;
 };
 

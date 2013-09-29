@@ -5,7 +5,7 @@ Game::Game() : isRunning(true), VBO(0), time(0) {
 	std::cout << "Init Game" << std::endl;
 
     //PARTICLES
-    PE = ParticleEmitter();
+	PE = ParticleEmitter(glm::vec2(0), NUMPARTICLES, 10);
 
 
 
@@ -105,8 +105,8 @@ void Game::update(float dt) {
                 break;
         }
     }
-    sf::Vector2i mpos = mouse.getPosition(window);
-    mousepos = sf::Vector2f(
+	sf::Vector2i mpos = mouse.getPosition(window);
+	mousepos = glm::vec2(
                 (float(mpos.x)/float(SCREENWIDTH)-0.5)*2,
                 (float(-mpos.y)/float(SCREENHEIGHT)+0.5)*2
                 );
