@@ -1,10 +1,10 @@
 #include "Tools.hpp"
 
-int SCREENWIDTH = 700;
-int SCREENHEIGHT = 700;
+int SCREENWIDTH = 500;
+int SCREENHEIGHT = 500;
 float CAMZ = -1.73;
 
-int NUMPARTICLES = 10;
+int NUMPARTICLES = 10000;
 
 bool REPULSION = true;
 

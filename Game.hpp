@@ -13,20 +13,24 @@ class Game
     bool init();
     void run();
    private:
+
     void update(float dt);
     void draw();
 
-    float time;
 
     sf::RenderWindow window;
     bool isRunning;
 
     GLuint VBO;
+	float time;
     GLuint programHandle;
 	sf::Clock clock;
 	glm::detail::tmat4x4<float> trans;
 
     ParticleEmitter PE;
+
+	int FPS;
+	float timeFPS;
 
     sf::Mouse mouse;
 	glm::vec2 mousepos;

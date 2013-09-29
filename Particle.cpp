@@ -30,8 +30,6 @@ void Particle::update(float dt, glm::vec2 mpos) {
         float dist = module(pos.x-mpos.x, pos.y-mpos.y);
         glm::vec2 uvect = glm::vec2(pos.x-mpos.x, pos.y-mpos.y)/dist;
         glm::vec2 force = uvect / (dist*dist);
-
-
         vel += force*dt;
         if (module(vel) > maxVel) vel = uvect * maxVel;
     }
@@ -60,7 +58,7 @@ void Particle::update(float dt, glm::vec2 mpos) {
 
 void Particle::draw(GLuint location, glm::detail::tmat4x4<float> & trans, glm::vec2 mpos, GLuint alphaLoc) const{
 
-    trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
+	trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
     trans = glm::translate(trans, glm::vec3(0, 0, CAMZ));
 	trans = glm::translate(trans, glm::vec3(pos, 0));
 

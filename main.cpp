@@ -7,6 +7,6 @@ int main()
     if(myGame.init()) {
         myGame.run();
     }
-    return 42;
+	return 0;
 }
 

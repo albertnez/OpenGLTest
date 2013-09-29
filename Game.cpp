@@ -4,13 +4,14 @@
 Game::Game() : isRunning(true), VBO(0), time(0) {
 	std::cout << "Init Game" << std::endl;
 
-    //PARTICLES
+	//PARTICLE EMITTER
 	PE = ParticleEmitter(glm::vec2(0), NUMPARTICLES, 10);
 
-
+	FPS = timeFPS = 0;
 
 	window.create(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
 	glClearColor(0,0,0,1);
+
 	std::cout << "Init Succesful" << std::endl;
 }
 
@@ -58,7 +59,6 @@ bool Game::init() {
 	glGenBuffers(1, &VBO);
 	glUseProgram(programHandle);
 
-	//modelViewProjection = glm::rotate(modelViewProjection, 10.0f, glm::vec3(0,1,0));
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_ALPHA_TEST);
@@ -68,8 +68,8 @@ bool Game::init() {
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+	//Simple quad
     std::vector<Vertex> data;
-
     data.push_back( Vertex(-1, 1) );
     data.push_back( Vertex(-1, -1) );
     data.push_back( Vertex(1, -1) );
@@ -93,6 +93,17 @@ void Game::run() {
 }
 
 void Game::update(float dt) {
+
+	++FPS;
+	timeFPS += dt;
+	if (timeFPS >= 1.0f) {
+		std::stringstream ss;
+		ss << "FPS: " << FPS;
+		window.setTitle(ss.str());
+		timeFPS = FPS = 0;
+	}
+
+
     sf::Event event;
     while(window.pollEvent(event)) {
         switch (event.type) {
@@ -101,20 +112,28 @@ void Game::update(float dt) {
                 break;
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::R) REPULSION = !REPULSION;
-                if (event.key.code == sf::Keyboard::Escape) isRunning = false;
+				else if (event.key.code == sf::Keyboard::Escape) isRunning = false;
                 break;
+			case sf::Event::MouseButtonPressed:
+				if (event.key.code == sf::Mouse::Left) PE.explosion();
+				else if (event.key.code == sf::Mouse::Right) PE.clear();
+				break;
+			case sf::Event::Resized:
+				SCREENWIDTH = window.getSize().x;
+				SCREENHEIGHT = window.getSize().y;
+				glViewport(0, 0, SCREENWIDTH, SCREENHEIGHT);
+				break;
         }
     }
+
 	sf::Vector2i mpos = mouse.getPosition(window);
 	mousepos = glm::vec2(
                 (float(mpos.x)/float(SCREENWIDTH)-0.5)*2,
                 (float(-mpos.y)/float(SCREENHEIGHT)+0.5)*2
                 );
 
-
-    //PARTICLE EMITER
-
-    PE.setPosition(mousepos.x, mousepos.y);
+	//PARTICLE EMITTER
+	PE.setPosition(mousepos);
     PE.update(dt, mousepos);
 
 }
@@ -122,6 +141,7 @@ void Game::update(float dt) {
 void Game::draw() {
 	window.clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glUseProgram(programHandle);
 
     GLint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
@@ -135,10 +155,9 @@ void Game::draw() {
 	glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
-    // Particle draw
+	// Particle draw
     PE.draw(loc, trans, mousepos, alphaLoc);
 
-    //glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
 
 	window.display();

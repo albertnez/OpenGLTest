@@ -8,9 +8,13 @@ class ParticleEmitter {
 private:
     float frequency;
     float life;
+	float spawnTime;
+	float lastTime;
 	int numParticles;
     glm::vec2 pos;
     std::list<Particle> particlesList;
+
+	void emitParticle(glm::vec2 pos, glm::vec2 vel, float life);
 
 public:
 	ParticleEmitter(glm::vec2 pos = glm::vec2(0.0f, 0.0f), int numParticles = NUMPARTICLES, float frequency = 1.0f);
@@ -22,6 +26,9 @@ public:
 
 	void update(float dt, glm::vec2 mpos);
     void draw(GLuint location, glm::detail::tmat4x4<float> & trans, glm::vec2 mpos, GLuint alphaLoc) const;
+
+	void explosion();
+	void clear();
 };
 
 #endif // PARTICLEEMITTER_HPP
