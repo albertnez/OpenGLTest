@@ -24,6 +24,7 @@ class Game
     GLuint VBO;
 	float time;
     GLuint programHandle;
+
 	sf::Clock clock;
 	glm::detail::tmat4x4<float> trans;
 
@@ -31,6 +32,8 @@ class Game
 
 	int FPS;
 	float timeFPS;
+
+    float angle;
 
     sf::Mouse mouse;
 	glm::vec2 mousepos;
