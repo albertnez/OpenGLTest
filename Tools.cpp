@@ -4,7 +4,7 @@ int SCREENWIDTH = 500;
 int SCREENHEIGHT = 500;
 float CAMZ = -1.73;
 
-int NUMPARTICLES = 10000;
+int NUMPARTICLES = 100;
 
 bool REPULSION = true;
 

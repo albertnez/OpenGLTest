@@ -5,7 +5,7 @@ Game::Game() : isRunning(true), VBO(0), time(0) {
 	std::cout << "Init Game" << std::endl;
 
 	//PARTICLE EMITTER
-	PE = ParticleEmitter(glm::vec2(0), NUMPARTICLES, 10);
+	PE = ParticleEmitter(glm::vec2(0), NUMPARTICLES, 100);
 
 	FPS = timeFPS = 0;
 
