@@ -28,6 +28,7 @@ extern int NUMPARTICLES;
 extern float CAMZ;
 
 extern bool REPULSION;
+extern bool GRAVITY;
 
 float frand();
 float frand(int n);
