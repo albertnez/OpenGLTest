@@ -3,15 +3,20 @@
 
 #include "Tools.hpp"
 #include "ParticleEmitter.hpp"
+#include "Shader.hpp"
 
+class Game;
 class Scene
 {
 public:
-    Scene();
-    void init();
+    Scene(Game &parent);
+    bool init();
     void update(float dt);
     void draw();
 private:
+    Game
+    & parent;
+
 
     GLuint VBO;
     GLuint programHandle;

@@ -5,6 +5,7 @@
 #include "Tools.hpp"
 #include "Particle.hpp"
 #include "ParticleEmitter.hpp"
+#include "Scene.hpp"
 
 class Game
 {
@@ -21,12 +22,12 @@ class Game
     sf::RenderWindow window;
     bool isRunning;
 
+    Scene * scene;
 
 
 	sf::Clock clock;
 
     float time;
-
 	int FPS;
 	float timeFPS;
 };

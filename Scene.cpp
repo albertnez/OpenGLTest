@@ -1,11 +1,12 @@
 #include "Scene.hpp"
 
 
-Scene::Scene()
+Scene::Scene(Game &parent) : VBO(0)
 {
+    PE = ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
 }
 
-void Scene::init()
+bool Scene::init()
 {
     std::string vp_filename("shaders/Test.vert"), fp_filename("shaders/Test.frag");
     //LOAD AND COMPILE VERTEX SHADER
@@ -68,11 +69,67 @@ void Scene::init()
 
 void Scene::update(float dt)
 {
+    sf::Event event;
+    while(window.pollEvent(event)) {
+        switch (event.type) {
+            case sf::Event::Closed:
+                isRunning = false;
+                break;
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::R) REPULSION = !REPULSION;
+                else if (event.key.code == sf::Keyboard::G) GRAVITY = !GRAVITY;
+                else if (event.key.code == sf::Keyboard::Escape) isRunning = false;
+                break;
+            case sf::Event::MouseButtonPressed:
+                if (event.key.code == sf::Mouse::Left) PE.explosion();
+                else if (event.key.code == sf::Mouse::Right) PE.clear();
+                break;
+            case sf::Event::Resized:
+                SCREENWIDTH = window.getSize().x;
+                SCREENHEIGHT = window.getSize().y;
+                glViewport(0, 0, SCREENWIDTH, SCREENHEIGHT);
+                break;
+        }
+    }
+
+    sf::Vector2i mpos = mouse.getPosition(window);
+    mousepos = glm::vec2(
+                (float(mpos.x)/float(SCREENWIDTH)-0.5)*2,
+                (float(-mpos.y)/float(SCREENHEIGHT)+0.5)*2
+                );
+
+    //PARTICLE EMITTER
+    //PE.setPosition(mousepos);
+    PE.update(dt, mousepos);
 
 }
 
 void Scene::draw()
 {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glUseProgram(programHandle);
+
+    GLuint loc = glGetUniformLocation(programHandle, std::string("modelViewProjectionMatrix").c_str());
+    GLuint alphaLoc = glGetUniformLocation(programHandle, std::string("alpha").c_str());
+    GLuint timeLoc = glGetUniformLocation(programHandle, std::string("time").c_str());
+    GLuint colorLoc = glGetUniformLocation(programHandle, std::string("color").c_str());
+
+    glUniform1f(timeLoc, time);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+
+    // Particle draw
+    trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
+    trans = glm::translate(trans, glm::vec3(0, 0, CAMZ));
+    //trans = glm::rotate(trans, angle, glm::vec3(0, 0, 0));
+
+    PE.draw(loc, trans, colorLoc, alphaLoc);
+
+    glDisableVertexAttribArray(0);
+
 }
 
 

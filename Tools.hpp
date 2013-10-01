@@ -36,6 +36,14 @@ float frand(float lo, float hi);
 
 float module(float x, float y);
 float module(const glm::vec2 &v);
+
+struct Vertex {
+        Vertex(float px, float py)
+            : px(px), py(py) {}
+        ~Vertex() {}
+        float px, py;
+};
+
 /*
 struct Vertex {
         Vertex(float px, float py, float pz, float cr, float cg, float cb)
