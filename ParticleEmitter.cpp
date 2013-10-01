@@ -1,8 +1,9 @@
 #include "ParticleEmitter.hpp"
 
 
-ParticleEmitter::ParticleEmitter(glm::vec2 pos, float life, float frequency, glm::vec3 initColor, glm::vec3 finalColor) :
+ParticleEmitter::ParticleEmitter(glm::vec2 pos, glm::vec2 vel, float life, float frequency, glm::vec3 initColor, glm::vec3 finalColor) :
     pos(pos),
+	vel(vel),
     life(life),
     frequency(frequency),
     initColor(initColor),
@@ -26,7 +27,6 @@ void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life)
 
 void ParticleEmitter::explosion()
 {
-    //float angleStep = 360.0f/numParticles;
     for (float a = 0; a <= 2*M_PI; a += angleStep) {
         emitParticle(pos, glm::vec2(sin(a), cos(a)), life);
 	}
@@ -59,18 +59,31 @@ void ParticleEmitter::update(float dt, glm::vec2 mpos) {
         it = it2;
     }
 
-    if (pos == oldPos) std::cout << "pos = oldPos" << std::endl;
-    else std::cout << " ~~~~pos != oldPos" << std::endl;
-
+	pos += vel*dt*10.0f;
+	if (pos.x < -1) {
+		vel.x *= -1;
+		pos.x = -1 + (-1 -pos.x);
+	}
+	else if (pos.x > 1) {
+		vel.x *= -1;
+		pos.x = 1 - (pos.x -1);
+	}
+	if (pos.y < -1) {
+		vel.y *= -1;
+		pos.y = -1 + (-1 -pos.y);
+	}
+	else if (pos.y > 1) {
+		vel.y *= -1;
+		pos.y = 1 - (pos.y -1);
+	}
 
 	if (dt > spawnTime) {
-//        std::cout << oldPos.x << " " << pos.x << std::endl;
         float totalDt = dt;
 		while (dt > 0) {
             glm::vec2 interpolatePos = oldPos + (1-dt/totalDt) * (pos-oldPos);
             dt -= spawnTime;
-            emitParticle(interpolatePos, glm::vec2(sin(angle),cos(angle)), life-dt);
-//            emitParticle(pos, glm::vec2(sin(angle),cos(angle)), life-dt);
+			emitParticle(interpolatePos, glm::vec2(sin(angle),cos(angle)), life-dt);
+			//emitParticle(pos, glm::vec2(sin(angle),cos(angle)), life-dt);
             angle += angleStep;
 
 			spawnTime = 1.0f/frequency;

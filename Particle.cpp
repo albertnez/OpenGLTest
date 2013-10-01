@@ -23,7 +23,7 @@ Particle::Particle(glm::vec2 pos, glm::vec2 vel, float initLife, glm::vec3 initC
     initColor(initColor),
     finalColor(finalColor),
     initSize(0.01f),
-    finalSize(0.01f),
+	finalSize(0.1f),
     initAlpha(0.05f),
     finalAlpha(1.0f) {
 }
@@ -47,7 +47,7 @@ void Particle::update(float dt, glm::vec2 mpos) {
         vel.y -= dt*5;
     }
 
-    pos += vel*dt*0.1f;
+	pos += vel*dt;
 
     if (pos.x < -1) {
         vel.x *= -1;

@@ -1,13 +1,13 @@
 #include "Tools.hpp"
 
-int SCREENWIDTH = 900;
-int SCREENHEIGHT = 900;
+int SCREENWIDTH = 700;
+int SCREENHEIGHT = 700;
 float CAMZ = -1.73;
 
 int NUMPARTICLES = 100;
 
 bool REPULSION = false;
-bool GRAVITY = true;
+bool GRAVITY = false;
 
 float frand() {
 	return float(rand())/float(RAND_MAX);

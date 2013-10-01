@@ -6,7 +6,7 @@ Game::Game() : isRunning(true), VBO(0), time(0) {
 
 	//PARTICLE EMITTER
 
-    PE = ParticleEmitter(glm::vec2(0), 2.0f, 1000.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
+	PE = ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1)), 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
     angle = 0.0f;
 
 	FPS = timeFPS = 0;
@@ -137,7 +137,7 @@ void Game::update(float dt) {
                 );
 
 	//PARTICLE EMITTER
-	PE.setPosition(mousepos);
+	//PE.setPosition(mousepos);
     PE.update(dt, mousepos);
 
     //ANGLE
