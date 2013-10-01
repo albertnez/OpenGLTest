@@ -8,6 +8,7 @@ class Scene
 {
 public:
     Scene();
+    void init();
     void update(float dt);
     void draw();
 private:
