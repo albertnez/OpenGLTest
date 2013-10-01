@@ -6,8 +6,7 @@ Game::Game() : isRunning(true), VBO(0), time(0) {
 
 	//PARTICLE EMITTER
 
-	PE = ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1)), 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
-    angle = 0.0f;
+    PE = ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
 
 	FPS = timeFPS = 0;
 
@@ -25,67 +24,12 @@ struct Vertex {
         float px, py;
 };
 
-bool Game::init() {
-	std::string vp_filename("shaders/Test.vert"), fp_filename("shaders/Test.frag");
-	//LOAD AND COMPILE VERTEX SHADER
-	std::cout << "* Loading new vertex shader from " << vp_filename << std::endl;;
-	Shader vertex(GL_VERTEX_SHADER);
-	vertex.load(vp_filename);
-	if (!vertex.compile()) {
-        vertex.printInfoLog();
-		std::cout << "#ERROR Compile failed for vertex shader '" << vp_filename << "'." << std::endl;;
-		return false;
-	}
-	else std::cout << " - Compiled " << vp_filename << " successfully." << std::endl;;
-
-	//LOAD AND COMPILE FRAGMENT SHADER
-	std::cout << "* Loading new fragment shader from " << fp_filename << std::endl;;
-	Shader fragment(GL_FRAGMENT_SHADER);
-	fragment.load(fp_filename);
-	if (!fragment.compile()) {
-		fragment.printInfoLog();
-		std::cout << "#ERROR Compile failed for fragment shader '" << fp_filename << "'." << std::endl;
-		return false;
-	}
-	else std::cout <<  " - Compiled " << fp_filename << " successfully." << std::endl;
-
-	//CREATE THE PROGRAM
-	std::cout << "* Creating new shaderProgram with " << vp_filename << " and " << fp_filename << std::endl;
-	programHandle = glCreateProgram();
-
-	//ATTACH AND LINK
-	vertex.attach(programHandle);
-	fragment.attach(programHandle);
-	glLinkProgram(programHandle);
-
-	glGenBuffers(1, &VBO);
-	glUseProgram(programHandle);
-
-
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_ALPHA_TEST);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    glEnable(GL_BLEND);
-    glEnable(GL_CULL_FACE);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	//Simple quad
-    std::vector<Vertex> data;
-    data.push_back( Vertex(-1, 1) );
-    data.push_back( Vertex(-1, -1) );
-    data.push_back( Vertex(1, -1) );
-
-    data.push_back( Vertex(-1, 1) );
-    data.push_back( Vertex(1, -1) );
-    data.push_back( Vertex(1, 1) );
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*data.size(), &data[0], GL_STATIC_DRAW);
-    return true;
+bool Game::init()
+{
 }
 
-void Game::run() {
+void Game::run()
+{
 	sf::Clock clock;
 	while(isRunning) {
         float dt = clock.restart().asSeconds();
@@ -95,7 +39,8 @@ void Game::run() {
 	}
 }
 
-void Game::update(float dt) {
+void Game::update(float dt)
+{
 
 	++FPS;
 	timeFPS += dt;
@@ -139,9 +84,6 @@ void Game::update(float dt) {
 	//PARTICLE EMITTER
 	//PE.setPosition(mousepos);
     PE.update(dt, mousepos);
-
-    //ANGLE
-    angle += 2*3.1416f*dt*20;
 
 }
 

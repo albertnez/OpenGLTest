@@ -21,22 +21,14 @@ class Game
     sf::RenderWindow window;
     bool isRunning;
 
-    GLuint VBO;
-	float time;
-    GLuint programHandle;
+
 
 	sf::Clock clock;
-	glm::detail::tmat4x4<float> trans;
 
-    ParticleEmitter PE;
+    float time;
 
 	int FPS;
 	float timeFPS;
-
-    float angle;
-
-    sf::Mouse mouse;
-	glm::vec2 mousepos;
 };
 
 #endif // GAME_HPP

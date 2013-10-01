@@ -11,7 +11,6 @@ Particle::Particle()
     initSize = 0.01, finalSize = 0.1;
     initAlpha = 0.1f, finalAlpha = 0.0f;
 
-    //life = initLife = frand(1, 10);
     initLife = life = frand(10);
 }
 
@@ -22,7 +21,7 @@ Particle::Particle(glm::vec2 pos, glm::vec2 vel, float initLife, glm::vec3 initC
     life(initLife),
     initColor(initColor),
     finalColor(finalColor),
-    initSize(0.01f),
+    initSize(0.05f),
 	finalSize(0.1f),
     initAlpha(0.05f),
     finalAlpha(1.0f) {

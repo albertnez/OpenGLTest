@@ -10,7 +10,7 @@ ParticleEmitter::ParticleEmitter(glm::vec2 pos, glm::vec2 vel, float life, float
     finalColor(finalColor),
     spawnTime(0),
     angle(0),
-    angleStep(2*M_PI/frequency),
+    angleStep(2*M_PI/frequency*0.1),
     oldPos(pos)
 {
 }
@@ -22,7 +22,7 @@ ParticleEmitter::ParticleEmitter(glm::vec2 pos, float frequency) :
 
 void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life)
 {
-    particlesList.push_back( Particle(pos, vel, life, initColor, finalColor));
+    particlesList.push_back( Particle(pos, glm::vec2(0.0f, 0.0f), life, initColor, finalColor));
 }
 
 void ParticleEmitter::explosion()
@@ -59,7 +59,7 @@ void ParticleEmitter::update(float dt, glm::vec2 mpos) {
         it = it2;
     }
 
-	pos += vel*dt*10.0f;
+    pos += vel*dt;
 	if (pos.x < -1) {
 		vel.x *= -1;
 		pos.x = -1 + (-1 -pos.x);
