@@ -1,13 +1,9 @@
 #include "Game.hpp"
-#include "Shader.hpp"
 
 Game::Game() : isRunning(true) {
 	std::cout << "Init Game" << std::endl;
 
 	//PARTICLE EMITTER
-
-
-
 	FPS = timeFPS = 0;
 
 	window.create(sf::VideoMode(SCREENWIDTH, SCREENHEIGHT), "test", sf::Style::Default, sf::ContextSettings(32, 32, 0, 4, 2));
@@ -15,8 +11,6 @@ Game::Game() : isRunning(true) {
 
 	std::cout << "Init Succesful" << std::endl;
 }
-
-
 
 
 bool Game::init()
@@ -41,7 +35,7 @@ void Game::run()
 
 void Game::close()
 {
-//	scene->close();
+//	scene->close();  // No need for this
 	delete scene;
 	isRunning = false;
 }
@@ -53,7 +47,6 @@ sf::RenderWindow &Game::getWindow()
 
 void Game::update(float dt)
 {
-
 	++FPS;
 	timeFPS += dt;
 	if (timeFPS >= 1.0f) {

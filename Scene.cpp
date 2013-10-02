@@ -104,7 +104,6 @@ void Scene::update(float dt)
     //PARTICLE EMITTER
     //PE.setPosition(mousepos);
     PE.update(dt, mousepos);
-
 }
 
 void Scene::draw()
@@ -124,15 +123,13 @@ void Scene::draw()
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
-    // Particle draw
+	//Draw
     trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
     trans = glm::translate(trans, glm::vec3(0, 0, CAMZ));
-    //trans = glm::rotate(trans, angle, glm::vec3(0, 0, 0));
 
     PE.draw(loc, trans, colorLoc, alphaLoc);
 
     glDisableVertexAttribArray(0);
-
 }
 
 
