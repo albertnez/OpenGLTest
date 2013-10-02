@@ -10,9 +10,13 @@
 class Game
 {
   public:
-    Game();
+	Game();
     bool init();
+	void setScene(Scene * scene);
     void run();
+	void close();
+
+	sf::RenderWindow& getWindow();
    private:
 
     void update(float dt);
@@ -27,7 +31,6 @@ class Game
 
 	sf::Clock clock;
 
-    float time;
 	int FPS;
 	float timeFPS;
 };

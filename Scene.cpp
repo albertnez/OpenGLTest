@@ -1,8 +1,10 @@
 #include "Scene.hpp"
+#include "Game.hpp"
 
 
-Scene::Scene(Game &parent) : VBO(0)
+Scene::Scene(Game &parent) : parent(parent), VBO(0), time(0)
 {
+	std::cout << "creating scene" << std::endl;
     PE = ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
 }
 
@@ -69,30 +71,31 @@ bool Scene::init()
 
 void Scene::update(float dt)
 {
+	time += dt;
     sf::Event event;
-    while(window.pollEvent(event)) {
+	while(parent.getWindow().pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
-                isRunning = false;
+				parent.close();
                 break;
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::R) REPULSION = !REPULSION;
                 else if (event.key.code == sf::Keyboard::G) GRAVITY = !GRAVITY;
-                else if (event.key.code == sf::Keyboard::Escape) isRunning = false;
+				else if (event.key.code == sf::Keyboard::Escape) parent.close();
                 break;
             case sf::Event::MouseButtonPressed:
                 if (event.key.code == sf::Mouse::Left) PE.explosion();
                 else if (event.key.code == sf::Mouse::Right) PE.clear();
                 break;
             case sf::Event::Resized:
-                SCREENWIDTH = window.getSize().x;
-                SCREENHEIGHT = window.getSize().y;
+				SCREENWIDTH = parent.getWindow().getSize().x;
+				SCREENHEIGHT = parent.getWindow().getSize().y;
                 glViewport(0, 0, SCREENWIDTH, SCREENHEIGHT);
                 break;
         }
     }
 
-    sf::Vector2i mpos = mouse.getPosition(window);
+	sf::Vector2i mpos = mouse.getPosition(parent.getWindow());
     mousepos = glm::vec2(
                 (float(mpos.x)/float(SCREENWIDTH)-0.5)*2,
                 (float(-mpos.y)/float(SCREENHEIGHT)+0.5)*2

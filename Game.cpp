@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "Shader.hpp"
 
-Game::Game() : isRunning(true), time(0) {
+Game::Game() : isRunning(true) {
 	std::cout << "Init Game" << std::endl;
 
 	//PARTICLE EMITTER
@@ -23,15 +23,32 @@ bool Game::init()
 {
 }
 
+void Game::setScene(Scene *scene)
+{
+	this->scene = scene;
+	this->scene->init();
+}
+
 void Game::run()
 {
 	sf::Clock clock;
 	while(isRunning) {
         float dt = clock.restart().asSeconds();
-        time += dt;
         update(dt);
         draw();
 	}
+}
+
+void Game::close()
+{
+//	scene->close();
+	delete scene;
+	isRunning = false;
+}
+
+sf::RenderWindow &Game::getWindow()
+{
+	return window;
 }
 
 void Game::update(float dt)
@@ -46,14 +63,15 @@ void Game::update(float dt)
 		timeFPS = FPS = 0;
 	}
 
-
-
-
-
+	if (scene != NULL)
+		scene->update(dt);
 }
 
 void Game::draw() {
 	window.clear();
+
+	if (scene != NULL)
+		scene->draw();
 
 	window.display();
 }

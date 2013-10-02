@@ -14,12 +14,13 @@ public:
     void update(float dt);
     void draw();
 private:
-    Game
-    & parent;
+	Game& parent;
 
 
     GLuint VBO;
     GLuint programHandle;
+
+	float time;
 
     glm::detail::tmat4x4<float> trans;
 
