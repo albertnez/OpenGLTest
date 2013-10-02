@@ -8,14 +8,16 @@ SOURCES += main.cpp \
     Tools.cpp \
     Shader.cpp \
     Particle.cpp \
-    ParticleEmitter.cpp
+    ParticleEmitter.cpp \
+    Scene.cpp
 
 HEADERS += \
     Game.hpp \
     Tools.hpp \
     Shader.hpp \
     Particle.hpp \
-    ParticleEmitter.hpp
+    ParticleEmitter.hpp \
+    Scene.hpp
 
 OTHER_FILES += \
     shaders/Test.frag \

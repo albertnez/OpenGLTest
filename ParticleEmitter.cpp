@@ -2,16 +2,16 @@
 
 
 ParticleEmitter::ParticleEmitter(glm::vec2 pos, glm::vec2 vel, float life, float frequency, glm::vec3 initColor, glm::vec3 finalColor) :
-    pos(pos),
+	pos(pos),
 	vel(vel),
-    life(life),
-    frequency(frequency),
-    initColor(initColor),
-    finalColor(finalColor),
-    spawnTime(0),
-    angle(0),
-    angleStep(2*M_PI/frequency),
-    oldPos(pos)
+	life(life),
+	frequency(frequency),
+	initColor(initColor),
+	finalColor(finalColor),
+	spawnTime(0),
+	angle(0),
+	angleStep(2*M_PI/frequency*0.1),
+	oldPos(pos)
 {
 }
 
@@ -22,13 +22,13 @@ ParticleEmitter::ParticleEmitter(glm::vec2 pos, float frequency) :
 
 void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life)
 {
-    particlesList.push_back( Particle(pos, vel, life, initColor, finalColor));
+	particlesList.push_back( Particle(pos, vel, life, initColor, finalColor));
 }
 
 void ParticleEmitter::explosion()
 {
     for (float a = 0; a <= 2*M_PI; a += angleStep) {
-        emitParticle(pos, glm::vec2(sin(a), cos(a)), life);
+		emitParticle(pos, glm::vec2(sin(a), cos(a))*5.0f, life/5.0f);
 	}
 }
 
@@ -43,8 +43,8 @@ void ParticleEmitter::setPosition(glm::vec2 pos) {
 }
 
 void ParticleEmitter::setPosition(float x, float y) {
-    this->pos.x = x;
-    this->pos.y = y;
+	this->pos.x = x;
+	this->pos.y = y;
 }
 
 const glm::vec2 ParticleEmitter::getPosition() const { return pos;}
@@ -59,7 +59,7 @@ void ParticleEmitter::update(float dt, glm::vec2 mpos) {
         it = it2;
     }
 
-	pos += vel*dt*10.0f;
+    pos += vel*dt;
 	if (pos.x < -1) {
 		vel.x *= -1;
 		pos.x = -1 + (-1 -pos.x);
@@ -82,7 +82,8 @@ void ParticleEmitter::update(float dt, glm::vec2 mpos) {
 		while (dt > 0) {
             glm::vec2 interpolatePos = oldPos + (1-dt/totalDt) * (pos-oldPos);
             dt -= spawnTime;
-			emitParticle(interpolatePos, glm::vec2(sin(angle),cos(angle)), life-dt);
+			emitParticle(interpolatePos, glm::vec2(0.0f, 0.0f), life-dt);
+			//emitParticle(interpolatePos, glm::vec2(sin(angle),cos(angle)), life-dt);
 			//emitParticle(pos, glm::vec2(sin(angle),cos(angle)), life-dt);
             angle += angleStep;
 
