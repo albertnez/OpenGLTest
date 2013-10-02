@@ -1,5 +1,6 @@
 #include "Shader.hpp"
 
+
 Shader::Shader(GLenum type) {
 	shaderHandle = glCreateShader(type);
 }

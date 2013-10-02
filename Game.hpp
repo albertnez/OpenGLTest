@@ -5,13 +5,18 @@
 #include "Tools.hpp"
 #include "Particle.hpp"
 #include "ParticleEmitter.hpp"
+#include "Scene.hpp"
 
 class Game
 {
   public:
-    Game();
+	Game();
     bool init();
+	void setScene(Scene * scene);
     void run();
+	void close();
+
+	sf::RenderWindow& getWindow();
    private:
 
     void update(float dt);
@@ -21,22 +26,13 @@ class Game
     sf::RenderWindow window;
     bool isRunning;
 
-    GLuint VBO;
-	float time;
-    GLuint programHandle;
+    Scene * scene;
+
 
 	sf::Clock clock;
-	glm::detail::tmat4x4<float> trans;
-
-    ParticleEmitter PE;
 
 	int FPS;
 	float timeFPS;
-
-    float angle;
-
-    sf::Mouse mouse;
-	glm::vec2 mousepos;
 };
 
 #endif // GAME_HPP
