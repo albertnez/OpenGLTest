@@ -10,7 +10,7 @@ ParticleEmitter::ParticleEmitter(glm::vec2 pos, glm::vec2 vel, float life, float
 	finalColor(finalColor),
 	spawnTime(0),
 	angle(0),
-	angleStep(2*M_PI/frequency*0.1),
+    angleStep(2*M_PI/frequency),
 	oldPos(pos)
 {
 }
@@ -22,13 +22,23 @@ ParticleEmitter::ParticleEmitter(glm::vec2 pos, float frequency) :
 
 void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life)
 {
-	particlesList.push_back( Particle(pos, vel, life, initColor, finalColor));
+    particlesList.push_back( Particle(pos, vel, life, initColor, finalColor));
 }
+
+void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life, float initSize, float finalSize, float initAlpha, float finalAlpha, glm::vec3 initColor, glm::vec3 finalColor)
+{
+    std::cout << "pushing:" << std::endl;
+    particlesList.push_back(Particle(pos, vel, life, initSize, finalSize, initAlpha, finalAlpha, initColor, finalColor));
+}
+
+
 
 void ParticleEmitter::explosion()
 {
     for (float a = 0; a <= 2*M_PI; a += angleStep) {
-		emitParticle(pos, glm::vec2(sin(a), cos(a))*5.0f, life/5.0f);
+
+        emitParticle(pos, glm::vec2(sin(a), cos(a)), 0.3f, 0.1f, 0.01f, 0.1f, 0.1f, initColor, finalColor);
+
 	}
 }
 
@@ -49,6 +59,12 @@ void ParticleEmitter::setPosition(float x, float y) {
 
 const glm::vec2 ParticleEmitter::getPosition() const { return pos;}
 
+void ParticleEmitter::setColor(glm::vec3 initColor, glm::vec3 finalColor)
+{
+    this->initColor = initColor;
+    this->finalColor = finalColor;
+}
+
 void ParticleEmitter::update(float dt, glm::vec2 mpos) {
     for (std::list<Particle>::iterator it = particlesList.begin(); it != particlesList.end();) {
         std::list<Particle>::iterator it2 = it;
@@ -63,19 +79,30 @@ void ParticleEmitter::update(float dt, glm::vec2 mpos) {
 	if (pos.x < -1) {
 		vel.x *= -1;
 		pos.x = -1 + (-1 -pos.x);
+        explosion();
 	}
 	else if (pos.x > 1) {
 		vel.x *= -1;
 		pos.x = 1 - (pos.x -1);
+        explosion();
 	}
 	if (pos.y < -1) {
 		vel.y *= -1;
 		pos.y = -1 + (-1 -pos.y);
+        explosion();
 	}
 	else if (pos.y > 1) {
 		vel.y *= -1;
 		pos.y = 1 - (pos.y -1);
+        explosion();
 	}
+
+    //collision with mouse
+    if (module(pos.x-mpos.x,pos.y-mpos.y) < 0.08) {
+        explosion();
+        setColor(1.0f-initColor, 1.0f-finalColor);
+    }
+
 
 	if (dt > spawnTime) {
         float totalDt = dt;
@@ -83,12 +110,8 @@ void ParticleEmitter::update(float dt, glm::vec2 mpos) {
             glm::vec2 interpolatePos = oldPos + (1-dt/totalDt) * (pos-oldPos);
             dt -= spawnTime;
 			emitParticle(interpolatePos, glm::vec2(0.0f, 0.0f), life-dt);
-			//emitParticle(interpolatePos, glm::vec2(sin(angle),cos(angle)), life-dt);
-			//emitParticle(pos, glm::vec2(sin(angle),cos(angle)), life-dt);
             angle += angleStep;
-
 			spawnTime = 1.0f/frequency;
-
 		}
 	}
 	else spawnTime -= dt;

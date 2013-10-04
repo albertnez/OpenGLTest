@@ -27,7 +27,50 @@ Particle::Particle(glm::vec2 pos, glm::vec2 vel, float initLife, glm::vec3 initC
     finalAlpha(1.0f) {
 }
 
+Particle::Particle(glm::vec2 pos, glm::vec2 vel, float initLife, float initSize, float finalSize, float initAlpha, float finalAlpha, glm::vec3 initColor, glm::vec3 finalColor) :
+    pos(pos),
+    vel(vel),
+    initLife(initLife),
+    life(initLife),
+    initSize(initSize),
+    finalSize(finalSize),
+    initAlpha(initAlpha),
+    finalAlpha(finalAlpha),
+    initColor(initColor),
+    finalColor(finalColor)
+{
+
+}
+
 Particle::~Particle(){}
+
+void Particle::setPos(glm::vec2 pos)
+{
+    this->pos = pos;
+}
+
+void Particle::setVel(glm::vec2 vel)
+{
+    this->vel = vel;
+}
+
+void Particle::setSize(float initSize, float finalSize)
+{
+    this->initSize = initSize;
+    this->finalSize = finalSize;
+}
+
+void Particle::setColor(glm::vec3 initColor, glm::vec3 finalColor)
+{
+    this->initColor = initColor;
+    this->finalColor = finalColor;
+}
+
+void Particle::setAlpha(float initAlpha, float finalAlpha)
+{
+    this->initAlpha = initAlpha;
+    this->finalAlpha = finalAlpha;
+}
 
 void Particle::update(float dt, glm::vec2 mpos) {
 
@@ -37,7 +80,7 @@ void Particle::update(float dt, glm::vec2 mpos) {
             glm::vec2 uvect = glm::vec2(pos.x-mpos.x, pos.y-mpos.y)/dist;
             glm::vec2 force = uvect / (dist*dist);
             vel += force*dt;
-            if (module(vel) > maxVel) vel = uvect * maxVel;
+            //if (module(vel) > maxVel) vel = uvect * maxVel;
         }
     }
 

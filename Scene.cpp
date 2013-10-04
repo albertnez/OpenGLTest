@@ -5,7 +5,12 @@
 Scene::Scene(Game &parent) : parent(parent), VBO(0), time(0)
 {
 	std::cout << "creating scene" << std::endl;
-    PE = ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
+
+    PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.05f, 1.0f, 0.05f)) );
+    PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.05f, 0.05f)) );
+    //PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) );
+
+    //PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.3f, 0.3f, 1.0f), glm::vec3(0.0f, 0.3f, 0.3f)) );
 }
 
 bool Scene::init()
@@ -84,8 +89,8 @@ void Scene::update(float dt)
 				else if (event.key.code == sf::Keyboard::Escape) parent.close();
                 break;
             case sf::Event::MouseButtonPressed:
-                if (event.key.code == sf::Mouse::Left) PE.explosion();
-                else if (event.key.code == sf::Mouse::Right) PE.clear();
+                //if (event.key.code == sf::Mouse::Left) PE.explosion();
+                //else if (event.key.code == sf::Mouse::Right) PE.clear();
                 break;
             case sf::Event::Resized:
 				SCREENWIDTH = parent.getWindow().getSize().x;
@@ -103,7 +108,7 @@ void Scene::update(float dt)
 
     //PARTICLE EMITTER
     //PE.setPosition(mousepos);
-    PE.update(dt, mousepos);
+    for (int i = 0; i < PEvector.size(); ++i)  PEvector[i].update(dt, mousepos);
 }
 
 void Scene::draw()
@@ -127,7 +132,7 @@ void Scene::draw()
     trans = glm::perspective(60.0f,float(SCREENWIDTH)/ float(SCREENHEIGHT), 0.001f,1000.0f);
     trans = glm::translate(trans, glm::vec3(0, 0, CAMZ));
 
-    PE.draw(loc, trans, colorLoc, alphaLoc);
+    for (int i = 0; i < PEvector.size(); ++i) PEvector[i].draw(loc, trans, colorLoc, alphaLoc);
 
     glDisableVertexAttribArray(0);
 }

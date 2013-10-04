@@ -24,7 +24,7 @@ private:
 
     glm::detail::tmat4x4<float> trans;
 
-    ParticleEmitter PE;
+    std::vector<ParticleEmitter> PEvector;
 
     sf::Mouse mouse;
     glm::vec2 mousepos;
