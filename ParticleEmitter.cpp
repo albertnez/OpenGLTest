@@ -11,13 +11,16 @@ ParticleEmitter::ParticleEmitter(glm::vec2 pos, glm::vec2 vel, float life, float
 	spawnTime(0),
 	angle(0),
     angleStep(2*M_PI/frequency),
-	oldPos(pos)
+    oldPos(pos),
+    hit(false)
 {
 }
 
 ParticleEmitter::ParticleEmitter(glm::vec2 pos, float frequency) :
     pos(pos),
-    frequency(frequency) {
+    frequency(frequency),
+    hit(false)
+{
 }
 
 void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life)
@@ -98,9 +101,16 @@ void ParticleEmitter::update(float dt, glm::vec2 mpos) {
 
     //collision with mouse
     if (module(pos.x-mpos.x,pos.y-mpos.y) < 0.08) {
-        explosion();
-        setColor(1.0f-initColor, 1.0f-finalColor);
+        if (!hit) {
+            hit = true;
+            explosion();
+            setColor(1.0f-initColor, 1.0f-finalColor);
+        }
     }
+    else {
+        hit = false;
+    }
+
 
 
 	if (dt > spawnTime) {

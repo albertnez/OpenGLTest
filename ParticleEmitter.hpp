@@ -19,6 +19,8 @@ private:
     std::list<Particle> particlesList;
     glm::vec2 oldPos;
 
+    bool hit;
+
 	void emitParticle(glm::vec2 pos, glm::vec2 vel, float life);
     void emitParticle(glm::vec2 pos, glm::vec2 vel, float life, float initSize, float finalSize, float initAlpha, float finalAlpha, glm::vec3 initColor, glm::vec3 finalColor);
 
