@@ -15,6 +15,7 @@ Scene::Scene(Game &parent) : parent(parent), VBO(0), time(0)
 
 bool Scene::init()
 {
+	std::cout << "Scene init" << std::endl;
     std::string vp_filename("shaders/Test.vert"), fp_filename("shaders/Test.frag");
     //LOAD AND COMPILE VERTEX SHADER
     std::cout << "* Loading new vertex shader from " << vp_filename << std::endl;;
@@ -71,6 +72,7 @@ bool Scene::init()
     data.push_back( Vertex(1, 1) );
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*data.size(), &data[0], GL_STATIC_DRAW);
+	std::cout << "scene init success" << std::endl;
     return true;
 }
 

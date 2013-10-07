@@ -6,7 +6,7 @@ int main()
     srand(time(NULL));
 	Game myGame;
 
-
+	std::cout << "creating scene" << std::endl;
     if(myGame.init()) {
 		myGame.setScene(new Scene(myGame));
         myGame.run();

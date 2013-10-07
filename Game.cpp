@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 Game::Game() : isRunning(true) {
-	std::cout << "Init Game" << std::endl;
+	std::cout << "creating Game" << std::endl;
 
 	//PARTICLE EMITTER
 	FPS = timeFPS = 0;
@@ -15,10 +15,12 @@ Game::Game() : isRunning(true) {
 
 bool Game::init()
 {
+	return true;
 }
 
 void Game::setScene(Scene *scene)
 {
+	std::cout << "creating scene" << std::endl;
 	this->scene = scene;
 	this->scene->init();
 }

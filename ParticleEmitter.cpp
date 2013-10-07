@@ -27,7 +27,6 @@ void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life)
 
 void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life, float initSize, float finalSize, float initAlpha, float finalAlpha, glm::vec3 initColor, glm::vec3 finalColor)
 {
-    std::cout << "pushing:" << std::endl;
     particlesList.push_back(Particle(pos, vel, life, initSize, finalSize, initAlpha, finalAlpha, initColor, finalColor));
 }
 
