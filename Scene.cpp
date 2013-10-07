@@ -18,7 +18,7 @@ bool Scene::init()
 	std::cout << "Scene init" << std::endl;
     std::string vp_filename("shaders/Test.vert"), fp_filename("shaders/Test.frag");
     //LOAD AND COMPILE VERTEX SHADER
-    std::cout << "* Loading new vertex shader from " << vp_filename << std::endl;;
+    std::cout << "* Loading new vertex shader from " << vp_filename << std::endl;
     Shader vertex(GL_VERTEX_SHADER);
     vertex.load(vp_filename);
     if (!vertex.compile()) {

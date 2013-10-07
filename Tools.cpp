@@ -28,3 +28,6 @@ float module(const glm::vec2 &v) {
 	return (sqrt(v.x*v.x + v.y*v.y));
 }
 
+//std::map<std::string,ShaderProgram> PROGRAMS;
+//object.draw();
+//PROGRAMS["myprogram"]->uniform("lolol")->set(val)
