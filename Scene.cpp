@@ -6,11 +6,14 @@ Scene::Scene(Game &parent) : parent(parent), VBO(0), time(0)
 {
 	std::cout << "creating scene" << std::endl;
 
-    PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.05f, 1.0f, 0.05f)) );
-    PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.05f, 0.05f)) );
-    //PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f)) );
+	for (int i = 0; i < NUMPARTICLES; ++i) {
+		PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*2.0f, 0.5f, 200.0f, glm::vec3(frand(1.0f), frand(1.0f), frand(1.0f)), glm::vec3(frand(1.0f), frand(1.0f), frand(1.0f))));
+	}
 
-    //PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.3f, 0.3f, 1.0f), glm::vec3(0.0f, 0.3f, 0.3f)) );
+//	PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.05f, 1.0f, 0.05f)) );
+//	PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.05f, 0.05f)) );
+
+
 }
 
 bool Scene::init()
@@ -54,8 +57,8 @@ bool Scene::init()
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_ALPHA_TEST);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glEnable(GL_BLEND);
     glEnable(GL_CULL_FACE);
 

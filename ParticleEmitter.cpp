@@ -1,6 +1,5 @@
 #include "ParticleEmitter.hpp"
 
-
 ParticleEmitter::ParticleEmitter(glm::vec2 pos, glm::vec2 vel, float life, float frequency, glm::vec3 initColor, glm::vec3 finalColor) :
 	pos(pos),
 	vel(vel),
@@ -8,6 +7,10 @@ ParticleEmitter::ParticleEmitter(glm::vec2 pos, glm::vec2 vel, float life, float
 	frequency(frequency),
 	initColor(initColor),
 	finalColor(finalColor),
+	initSize(0.02f),
+	finalSize(0.1f),
+	initAlpha(1.0f),
+	finalAlpha(0.05f),
 	spawnTime(0),
 	angle(0),
     angleStep(2*M_PI/frequency),
@@ -25,7 +28,7 @@ ParticleEmitter::ParticleEmitter(glm::vec2 pos, float frequency) :
 
 void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life)
 {
-    particlesList.push_back( Particle(pos, vel, life, initColor, finalColor));
+	particlesList.push_back( Particle(pos, vel, life, initSize, finalSize, initAlpha, finalAlpha, initColor, finalColor));
 }
 
 void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life, float initSize, float finalSize, float initAlpha, float finalAlpha, glm::vec3 initColor, glm::vec3 finalColor)
@@ -33,14 +36,10 @@ void ParticleEmitter::emitParticle(glm::vec2 pos, glm::vec2 vel, float life, flo
     particlesList.push_back(Particle(pos, vel, life, initSize, finalSize, initAlpha, finalAlpha, initColor, finalColor));
 }
 
-
-
 void ParticleEmitter::explosion()
 {
     for (float a = 0; a <= 2*M_PI; a += angleStep) {
-
-        emitParticle(pos, glm::vec2(sin(a), cos(a)), 0.3f, 0.1f, 0.01f, 0.1f, 0.1f, initColor, finalColor);
-
+		emitParticle(pos, glm::vec2(sin(a), cos(a)), 0.3f, 0.1f, 0.01f, 0.1f, 0.1f, initColor, finalColor);
 	}
 }
 
@@ -64,7 +63,13 @@ const glm::vec2 ParticleEmitter::getPosition() const { return pos;}
 void ParticleEmitter::setColor(glm::vec3 initColor, glm::vec3 finalColor)
 {
     this->initColor = initColor;
-    this->finalColor = finalColor;
+	this->finalColor = finalColor;
+}
+
+void ParticleEmitter::setSize(float initSize, float finalSize)
+{
+	this->initSize = initSize;
+	this->finalSize = finalSize;
 }
 
 void ParticleEmitter::update(float dt, glm::vec2 mpos) {
@@ -110,8 +115,6 @@ void ParticleEmitter::update(float dt, glm::vec2 mpos) {
     else {
         hit = false;
     }
-
-
 
 	if (dt > spawnTime) {
         float totalDt = dt;
