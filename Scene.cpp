@@ -7,7 +7,7 @@ Scene::Scene(Game &parent) : parent(parent), VBO(0), time(0)
 	std::cout << "creating scene" << std::endl;
 
 	for (int i = 0; i < NUMPARTICLES; ++i) {
-		PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*2.0f, 0.5f, 200.0f, glm::vec3(frand(1.0f), frand(1.0f), frand(1.0f)), glm::vec3(frand(1.0f), frand(1.0f), frand(1.0f))));
+        PEvector.push_back( ParticleEmitter(glm::vec2(frand(-1,1),frand(-1,1)), glm::vec2(frand(1), frand(1))*2.0f, 0.5f, 200.0f, glm::vec3(frand(1.0f), frand(1.0f), frand(1.0f)), glm::vec3(frand(1.0f), frand(1.0f), frand(1.0f))));
 	}
 
 //	PEvector.push_back( ParticleEmitter(glm::vec2(0), glm::vec2(frand(1), frand(1))*5.0f, 0.5f, 200.0f, glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.05f, 1.0f, 0.05f)) );
@@ -57,8 +57,8 @@ bool Scene::init()
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_ALPHA_TEST);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glEnable(GL_BLEND);
     glEnable(GL_CULL_FACE);
 
@@ -94,8 +94,8 @@ void Scene::update(float dt)
 				else if (event.key.code == sf::Keyboard::Escape) parent.close();
                 break;
             case sf::Event::MouseButtonPressed:
-                //if (event.key.code == sf::Mouse::Left) PE.explosion();
-                //else if (event.key.code == sf::Mouse::Right) PE.clear();
+            if (event.key.code == sf::Mouse::Left) glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+                else if (event.key.code == sf::Mouse::Right) glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 break;
             case sf::Event::Resized:
 				SCREENWIDTH = parent.getWindow().getSize().x;
@@ -111,8 +111,25 @@ void Scene::update(float dt)
                 (float(-mpos.y)/float(SCREENHEIGHT)+0.5)*2
                 );
 
-    //PARTICLE EMITTER
-    //PE.setPosition(mousepos);
+
+    //Repulsion test!
+
+    for (int i = 0; i < PEvector.size(); ++i) {
+        for (int j = 0; j < PEvector.size(); ++j) {
+            if (i != j) {
+                glm::vec2 pos1 = PEvector[i].getPos(), pos2 = PEvector[j].getPos();
+                std::cout << "vec1: " << pos1.x << ',' << pos1.y << "   vec2: " << pos2.x << ',' << pos2.y << std::endl;
+                if (pos1.x != pos2.x and pos1.y != pos2.y) {
+                    float dist = module(pos1.x-pos2.x, pos1.y-pos2.y);
+                    glm::vec2 uvect = glm::vec2(pos1.x-pos2.x, pos1.y-pos2.y)/dist;
+                    glm::vec2 force = uvect / (dist*dist);
+                    PEvector[i].setVel(PEvector[i].getVel() + force*dt);
+                }
+            }
+        }
+    }
+
+
     for (int i = 0; i < PEvector.size(); ++i)  PEvector[i].update(dt, mousepos);
 }
 

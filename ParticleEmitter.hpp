@@ -32,12 +32,14 @@ public:
 	ParticleEmitter(glm::vec2 pos = glm::vec2(0.0f, 0.0f), glm::vec2 vel = glm::vec2(0.0f, 0.0f), float life = 1.0f, float frequency = 1.0f, glm::vec3 initColor=glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3 finalColor=glm::vec3(1.0f, 1.0f, 1.0f));
     ParticleEmitter(glm::vec2 pos, float frequency);
 
-	const glm::vec2 getPosition() const;
+    const glm::vec2 getPos() const;
+    const glm::vec2 getVel() const;
 
     void setPosition(glm::vec2 pos);
     void setPosition(float x, float y);
     void setColor(glm::vec3 initColor, glm::vec3 finalColor);
 	void setSize(float initSize, float finalSize);
+    void setVel(glm::vec2 vel);
 
 
 	void update(float dt, glm::vec2 mpos);

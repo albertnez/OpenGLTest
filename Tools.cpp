@@ -4,7 +4,7 @@ int SCREENWIDTH = 700;
 int SCREENHEIGHT = 700;
 float CAMZ = -1.73;
 
-int NUMPARTICLES = 5;
+int NUMPARTICLES = 10;
 
 bool REPULSION = false;
 bool GRAVITY = false;

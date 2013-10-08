@@ -58,7 +58,9 @@ void ParticleEmitter::setPosition(float x, float y) {
 	this->pos.y = y;
 }
 
-const glm::vec2 ParticleEmitter::getPosition() const { return pos;}
+const glm::vec2 ParticleEmitter::getPos() const { return pos; }
+
+const glm::vec2 ParticleEmitter::getVel() const { return vel; }
 
 void ParticleEmitter::setColor(glm::vec3 initColor, glm::vec3 finalColor)
 {
@@ -69,8 +71,10 @@ void ParticleEmitter::setColor(glm::vec3 initColor, glm::vec3 finalColor)
 void ParticleEmitter::setSize(float initSize, float finalSize)
 {
 	this->initSize = initSize;
-	this->finalSize = finalSize;
+    this->finalSize = finalSize;
 }
+
+void ParticleEmitter::setVel(glm::vec2 vel) { this->vel = vel; }
 
 void ParticleEmitter::update(float dt, glm::vec2 mpos) {
     for (std::list<Particle>::iterator it = particlesList.begin(); it != particlesList.end();) {
