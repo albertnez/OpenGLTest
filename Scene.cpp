@@ -118,7 +118,6 @@ void Scene::update(float dt)
         for (int j = 0; j < PEvector.size(); ++j) {
             if (i != j) {
                 glm::vec2 pos1 = PEvector[i].getPos(), pos2 = PEvector[j].getPos();
-                std::cout << "vec1: " << pos1.x << ',' << pos1.y << "   vec2: " << pos2.x << ',' << pos2.y << std::endl;
                 if (pos1.x != pos2.x and pos1.y != pos2.y) {
                     float dist = module(pos1.x-pos2.x, pos1.y-pos2.y);
                     glm::vec2 uvect = glm::vec2(pos1.x-pos2.x, pos1.y-pos2.y)/dist;

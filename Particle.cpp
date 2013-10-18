@@ -84,7 +84,6 @@ void Particle::update(float dt, glm::vec2 mpos) {
         }
     }
 
-
     if (GRAVITY) {
         vel.y -= dt*5;
     }

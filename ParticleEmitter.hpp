@@ -27,6 +27,7 @@ private:
 
 	void emitParticle(glm::vec2 pos, glm::vec2 vel, float life);
     void emitParticle(glm::vec2 pos, glm::vec2 vel, float life, float initSize, float finalSize, float initAlpha, float finalAlpha, glm::vec3 initColor, glm::vec3 finalColor);
+	void emitParticle(const Particle &p);
 
 public:
 	ParticleEmitter(glm::vec2 pos = glm::vec2(0.0f, 0.0f), glm::vec2 vel = glm::vec2(0.0f, 0.0f), float life = 1.0f, float frequency = 1.0f, glm::vec3 initColor=glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3 finalColor=glm::vec3(1.0f, 1.0f, 1.0f));
